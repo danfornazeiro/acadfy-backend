@@ -1,0 +1,43 @@
+package com.frnzdev.acadfy.domain;
+
+import com.frnzdev.acadfy.domain.enums.Difficulty;
+import com.frnzdev.acadfy.domain.enums.Priority;
+import com.frnzdev.acadfy.domain.enums.Status;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Table(name = "task")
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Task {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    private String title;
+    private String description;
+    private LocalDateTime deliver_work;
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty;
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+
+}
