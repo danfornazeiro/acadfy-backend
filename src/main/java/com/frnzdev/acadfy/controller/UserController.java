@@ -2,7 +2,7 @@ package com.frnzdev.acadfy.controller;
 
 import com.frnzdev.acadfy.domain.enums.RoleUser;
 import com.frnzdev.acadfy.domain.User;
-import com.frnzdev.acadfy.repository.UserRepository;
+import com.frnzdev.acadfy.infra.security.service.userService.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +16,19 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-   private final UserRepository userRepository;
-   public UserController(UserRepository userRepository) {
-       this.userRepository = userRepository;
+   private final UserService userService;
+   public UserController(UserService userService) {
+       this.userService = userService;
    }
 
     @GetMapping
     public List<User> getUsers(){
-        return userRepository.findAll();
+        return userService.getUsers();
     }
 
     @GetMapping("/role/{role}")
     public List<User> getUsersByRole(@PathVariable RoleUser role){
-        return userRepository.findAllByRoleUser(role);
+        return userService.getUsersByRole(role);
     }
 
     @GetMapping("/me")
