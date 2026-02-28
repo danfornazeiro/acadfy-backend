@@ -1,6 +1,7 @@
 package com.frnzdev.acadfy.controller;
 
 import com.frnzdev.acadfy.domain.*;
+import com.frnzdev.acadfy.domain.enums.task.Status;
 import com.frnzdev.acadfy.dto.TasksRequestDTO;
 import com.frnzdev.acadfy.infra.security.service.taskService.TaskService;
 import org.springframework.http.HttpStatus;
@@ -21,15 +22,20 @@ public class TasksController {
         this.taskService = taskService;
     }
 
+    @GetMapping("/me")
+    public List<Task> meTasks(Authentication authentication){
+        return taskService.getTasksUser(authentication);
+    }
+
+    @GetMapping("/status")
+    public List<Task> statusTasks(Status taskStatus, Authentication authentication){
+        return taskService.getTaskByStatus(taskStatus, authentication);
+    }
+
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody TasksRequestDTO body,Authentication authentication) {
          Task newTask = taskService.createTask(body, authentication);
          return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
-    }
-
-    @GetMapping("/me")
-    public List<Task> meTasks(Authentication authentication){
-        return taskService.getTasksUser(authentication);
     }
 
     @PatchMapping("/{id}")

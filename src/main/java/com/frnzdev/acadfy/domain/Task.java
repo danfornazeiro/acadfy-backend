@@ -1,8 +1,8 @@
 package com.frnzdev.acadfy.domain;
 
-import com.frnzdev.acadfy.domain.enums.Difficulty;
-import com.frnzdev.acadfy.domain.enums.Priority;
-import com.frnzdev.acadfy.domain.enums.Status;
+import com.frnzdev.acadfy.domain.enums.task.Difficulty;
+import com.frnzdev.acadfy.domain.enums.task.Priority;
+import com.frnzdev.acadfy.domain.enums.task.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,7 +37,5 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-
 
 }

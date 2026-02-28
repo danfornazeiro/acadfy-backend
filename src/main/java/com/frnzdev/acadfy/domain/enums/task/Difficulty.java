@@ -1,4 +1,4 @@
-package com.frnzdev.acadfy.domain.enums;
+package com.frnzdev.acadfy.domain.enums.task;
 
 public enum Difficulty {
 

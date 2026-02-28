@@ -2,13 +2,15 @@ package com.frnzdev.acadfy.infra.security.service.taskService;
 
 import com.frnzdev.acadfy.domain.Task;
 import com.frnzdev.acadfy.domain.User;
-import com.frnzdev.acadfy.domain.enums.Difficulty;
-import com.frnzdev.acadfy.domain.enums.Priority;
-import com.frnzdev.acadfy.domain.enums.Status;
+import com.frnzdev.acadfy.domain.enums.task.Difficulty;
+import com.frnzdev.acadfy.domain.enums.task.Priority;
+import com.frnzdev.acadfy.domain.enums.task.Status;
 import com.frnzdev.acadfy.dto.TasksRequestDTO;
 import com.frnzdev.acadfy.repository.TaskRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +21,24 @@ public class TaskService {
     private final TaskRepository taskRepository;
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
+    }
+
+    public List<Task> getTasksUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        return taskRepository.findByUser(user);
+    }
+
+    public List<Task> getTaskByStatus(Status taskStatus, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        List<Task> tasks =
+                taskRepository.findByUserAndStatus(user, taskStatus);
+
+       if(tasks.isEmpty()){
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No tasks found");
+       }
+       return tasks;
     }
 
     public Task createTask(TasksRequestDTO body, Authentication authentication) {
@@ -33,12 +53,6 @@ public class TaskService {
         newTask.setStatus(Status.valueOf(body.status()));
         newTask.setUser(user);
        return taskRepository.save(newTask);
-    }
-
-    public List<Task> getTasksUser(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-
-        return taskRepository.findByUser(user);
     }
 
     public Task updateTask(UUID id, TasksRequestDTO body, Authentication authentication) {
@@ -93,7 +107,6 @@ public class TaskService {
 
        taskRepository.delete(task);
     }
-
 
 
 }
