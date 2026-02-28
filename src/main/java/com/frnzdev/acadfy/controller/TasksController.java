@@ -1,45 +1,47 @@
 package com.frnzdev.acadfy.controller;
 
 import com.frnzdev.acadfy.domain.*;
-import com.frnzdev.acadfy.domain.enums.Difficulty;
-import com.frnzdev.acadfy.domain.enums.Priority;
-import com.frnzdev.acadfy.domain.enums.Status;
 import com.frnzdev.acadfy.dto.TasksRequestDTO;
-import com.frnzdev.acadfy.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.frnzdev.acadfy.infra.security.service.taskService.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/tasks")
 public class TasksController {
 
+    private final TaskService taskService;
 
-
-    @Autowired
-    private TaskRepository  taskRepository;
-
-    @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody TasksRequestDTO body, Authentication authentication) {
-
-        User user = (User) authentication.getPrincipal();
-
-
-        Task newTask = new Task();
-        newTask.setTitle(body.title());
-        newTask.setDescription(body.description());
-        newTask.setDeliver_work(body.deliver_work());
-        newTask.setDifficulty(Difficulty.valueOf(body.difficulty()));
-        newTask.setPriority(Priority.valueOf(body.priority()));
-        newTask.setStatus(Status.valueOf(body.status()));
-        newTask.setUser(user);
-        taskRepository.save(newTask);
-        return ResponseEntity.ok().build();
-
+    public TasksController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
+    @PostMapping
+    public ResponseEntity<Task> createTask(@RequestBody TasksRequestDTO body,Authentication authentication) {
+         Task newTask = taskService.createTask(body, authentication);
+         return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+    }
+
+    @GetMapping("/me")
+    public List<Task> meTasks(Authentication authentication){
+        return taskService.getTasksUser(authentication);
+    }
+
+    @PatchMapping("/{id}")
+    public Task updateTask(@PathVariable UUID id, @RequestBody TasksRequestDTO body, Authentication authentication) {
+        return taskService.updateTask(id, body, authentication);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Task> deleteTask(@PathVariable UUID id,  Authentication authentication) {
+
+       taskService.deleteTask(id, authentication);
+
+        return ResponseEntity.ok().build();
+    }
 }
