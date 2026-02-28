@@ -29,6 +29,30 @@ public class TaskService {
         return taskRepository.findByUser(user);
     }
 
+    public List<Task> getTaskByPriority(Priority priority, Authentication authentication) {
+        User user = (User)  authentication.getPrincipal();
+
+        List<Task> tasks = taskRepository.findByUserAndPriority(user, priority);
+
+        if(tasks.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such task");
+        }
+
+        return tasks;
+    }
+
+    public List<Task> getTaskByDifficulty(Difficulty difficulty, Authentication authentication) {
+        User user = (User)  authentication.getPrincipal();
+
+        List<Task> tasks = taskRepository.findByUserAndDifficulty(user, difficulty);
+
+
+        if(tasks.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such task");
+        }
+        return tasks;
+    }
+
     public List<Task> getTaskByStatus(Status taskStatus, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
@@ -36,7 +60,7 @@ public class TaskService {
                 taskRepository.findByUserAndStatus(user, taskStatus);
 
        if(tasks.isEmpty()){
-           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No tasks found");
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such task");
        }
        return tasks;
     }

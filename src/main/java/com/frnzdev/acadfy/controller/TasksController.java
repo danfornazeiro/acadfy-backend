@@ -1,6 +1,8 @@
 package com.frnzdev.acadfy.controller;
 
 import com.frnzdev.acadfy.domain.*;
+import com.frnzdev.acadfy.domain.enums.task.Difficulty;
+import com.frnzdev.acadfy.domain.enums.task.Priority;
 import com.frnzdev.acadfy.domain.enums.task.Status;
 import com.frnzdev.acadfy.dto.TasksRequestDTO;
 import com.frnzdev.acadfy.infra.security.service.taskService.TaskService;
@@ -30,6 +32,16 @@ public class TasksController {
     @GetMapping("/status")
     public List<Task> statusTasks(Status taskStatus, Authentication authentication){
         return taskService.getTaskByStatus(taskStatus, authentication);
+    }
+
+    @GetMapping("/priority")
+    public List<Task> priorityTasks(Priority priority, Authentication authentication){
+        return taskService.getTaskByPriority(priority, authentication);
+    }
+
+    @GetMapping("/difficulty")
+    public List<Task>  difficultyTasks(Difficulty difficulty, Authentication authentication){
+        return taskService.getTaskByDifficulty(difficulty, authentication);
     }
 
     @PostMapping
