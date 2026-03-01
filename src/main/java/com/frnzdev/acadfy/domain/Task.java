@@ -35,6 +35,7 @@ public class Task {
     private Priority priority;
     @Enumerated(EnumType.STRING)
     private Status status;
+    private String tag;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

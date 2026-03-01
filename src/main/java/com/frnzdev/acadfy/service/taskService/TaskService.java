@@ -72,8 +72,6 @@ public class TaskService {
     public Task createTask(TasksRequestDTO body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
-
-
         Task newTask = new Task();
         newTask.setTitle(body.title());
         newTask.setDescription(body.description());
@@ -81,6 +79,7 @@ public class TaskService {
         newTask.setDifficulty(Difficulty.valueOf(body.difficulty()));
         newTask.setPriority(Priority.valueOf(body.priority()));
         newTask.setStatus(Status.valueOf(body.status()));
+        newTask.setTag(body.tag());
         newTask.setUser(user);
        return taskRepository.save(newTask);
     }
@@ -139,7 +138,7 @@ public class TaskService {
     }
 
     @Transactional
-    public void completeTask(UUID id, Authentication authentication) {
+    public void completeTask(UUID id, Authentication authentication)   {
         User authenticatedUser  = (User) authentication.getPrincipal();
         User user = userRepository.findById(authenticatedUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(

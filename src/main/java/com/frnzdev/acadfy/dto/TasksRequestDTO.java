@@ -11,5 +11,6 @@ public record TasksRequestDTO(
                               LocalDateTime deliver_work,
                               String difficulty,
                               String priority,
-                              String status) {
+                              String status,
+                              String tag) {
 }
