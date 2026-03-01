@@ -4,7 +4,7 @@ package com.frnzdev.acadfy.controller;
 import com.frnzdev.acadfy.dto.LoginRequestDTO;
 import com.frnzdev.acadfy.dto.RegisterRequestDTO;
 import com.frnzdev.acadfy.dto.ResponseDTO;
-import com.frnzdev.acadfy.infra.security.service.authService.AuthService;
+import com.frnzdev.acadfy.service.authService.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

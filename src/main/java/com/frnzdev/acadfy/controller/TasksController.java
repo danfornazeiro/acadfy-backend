@@ -5,7 +5,7 @@ import com.frnzdev.acadfy.domain.enums.task.Difficulty;
 import com.frnzdev.acadfy.domain.enums.task.Priority;
 import com.frnzdev.acadfy.domain.enums.task.Status;
 import com.frnzdev.acadfy.dto.TasksRequestDTO;
-import com.frnzdev.acadfy.infra.security.service.taskService.TaskService;
+import com.frnzdev.acadfy.service.taskService.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -40,7 +40,7 @@ public class TasksController {
     }
 
     @GetMapping("/difficulty")
-    public List<Task>  difficultyTasks(Difficulty difficulty, Authentication authentication){
+    public List<Task> difficultyTasks(Difficulty difficulty, Authentication authentication){
         return taskService.getTaskByDifficulty(difficulty, authentication);
     }
 
@@ -59,7 +59,12 @@ public class TasksController {
     public ResponseEntity<Task> deleteTask(@PathVariable UUID id,  Authentication authentication) {
 
        taskService.deleteTask(id, authentication);
-
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<String> completeTask(@PathVariable UUID id,  Authentication authentication) {
+        taskService.completeTask(id, authentication);
+        return ResponseEntity.ok("Tasks completed successfully");
     }
 }

@@ -12,5 +12,5 @@ public record TasksResponseDTO(UUID id,
                                @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
                                LocalDateTime deliver_work,
                                String difficulty,
-                               String priority) {
-}
+                               String priority
+) {}

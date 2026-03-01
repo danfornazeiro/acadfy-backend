@@ -1,4 +1,4 @@
-package com.frnzdev.acadfy.infra.security.service.userService;
+package com.frnzdev.acadfy.service.userService;
 
 import com.frnzdev.acadfy.domain.User;
 import com.frnzdev.acadfy.domain.enums.RoleUser;

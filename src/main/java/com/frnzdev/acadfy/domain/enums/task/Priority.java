@@ -4,6 +4,6 @@ public enum Priority {
 
     MINIMUM,
     RELEVANT,
-    MAXIMAL
+    MAXIMUM
 
 }

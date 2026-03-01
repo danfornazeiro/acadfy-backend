@@ -2,7 +2,7 @@ package com.frnzdev.acadfy.controller;
 
 import com.frnzdev.acadfy.domain.enums.RoleUser;
 import com.frnzdev.acadfy.domain.User;
-import com.frnzdev.acadfy.infra.security.service.userService.UserService;
+import com.frnzdev.acadfy.service.userService.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;

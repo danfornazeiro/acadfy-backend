@@ -1,4 +1,4 @@
-package com.frnzdev.acadfy.infra.security.service.authService;
+package com.frnzdev.acadfy.service.authService;
 
 import com.frnzdev.acadfy.domain.User;
 import com.frnzdev.acadfy.domain.enums.RoleUser;
@@ -38,14 +38,14 @@ public class AuthService {
     public ResponseDTO register(RegisterRequestDTO body){
         if(userRepository.existsByEmail(body.email())) {
            throw new ResponseStatusException(
-                   HttpStatus.BAD_REQUEST, "Email already exists");
+                   HttpStatus.BAD_REQUEST, "email already exists.");
         }
 
 
         if(userRepository.existsByUsername(body.name())){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "username already exists"
+                    "username already exists."
             );
         }
 

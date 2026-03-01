@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,8 +28,12 @@ public class User {
     private String email;
     private String password;
     private String schoolName;
+    private Integer score = 0;
 
     @Enumerated(EnumType.STRING)
     private RoleUser roleUser;
+
+
+
 
 }
